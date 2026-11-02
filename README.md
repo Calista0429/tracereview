@@ -10,6 +10,49 @@ This is an independent project with fictional funds and fictional documents. It 
 
 [Clean notice](docs/screenshots/02-clean-notice.png) · [Confirmed record](docs/screenshots/06-confirmed.png) · [Two-window conflict](docs/screenshots/12-version-conflict.png) · [Document list](docs/screenshots/13-document-list.png) · [Phone view](docs/screenshots/17-mobile-highlight.png)
 
+## Architecture
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/architecture/architecture-dark.svg">
+  <img alt="TraceReview architecture: the reviewer uses the React UI, which calls the FastAPI API; the API hands review and export requests to a versioned service backed by SQLite and the original PDF store, and hands uploads to an import service that runs a time-limited PDF worker process" src="docs/architecture/architecture-light.svg">
+</picture>
+
+Read it left to right: the reviewer works in the browser, the UI talks to one API, and the API splits into two paths. The **review path** (up) edits, checks, confirms and exports through version-checked transactions, calls the pure rule functions, and re-hashes the original PDF before it trusts it. The **import path** (down) hashes and de-duplicates an upload, parses it in a separate time-limited process, then writes the rows and the original together. Only the two stores sit in the local `./data` folder.
+
+The diagram is generated with [Archify](https://github.com/tt-a1i/archify) from [`docs/architecture/architecture.json`](docs/architecture/architecture.json), and every component cites the source lines that support it, pinned to commit [`bf3390e`](https://github.com/Calista0429/tracereview/tree/bf3390ea2466e5c5bf11f612ec0552b5184615ab). Download [`architecture.html`](docs/architecture/architecture.html) and open it in a browser for the interactive version (find a node, trace a route between two components, see each component's cited sources). A high-resolution [PNG](docs/architecture/architecture.png) is also included.
+
+| Layer | Implementation |
+| --- | --- |
+| Web | React 19, TypeScript, Vite, React Router, PDF.js; locally bundled IBM Plex Sans and Newsreader fonts, no CDN at runtime |
+| API | Python 3.12, FastAPI, Pydantic; one error shape for every failure |
+| Parsing | pdfplumber in a separate process with a 10 second limit; word boxes converted to page fractions with a top-left origin |
+| Database | SQLite via SQLAlchemy 2.0 with WAL, enforced foreign keys and a version column on every record |
+| Storage | Originals stored under their SHA-256, never under the upload name; written with an atomic create-if-absent |
+| Tests | pytest, Vitest and Testing Library, Playwright in real Chrome |
+
+Key design points:
+
+- **Exact money.** `"0.10" + "0.20"` is exactly `"0.30"`. Bad input is rejected, not rounded into agreement.
+- **Server-side gates.** Confirmation and export re-check the version, all rules, the six checks and the stored original's hash on the server. The disabled buttons are only hints.
+- **No silent overwrites.** Stale writes return 409. The page keeps the draft and waits for an explicit reload, and it never retries a write whose outcome is unknown.
+- **One consistent export.** The server reads one snapshot of the confirmed version, builds the bytes, then records the export. A concurrent edit yields either the complete older confirmed file or a version conflict, never a mixture.
+- **Isolated parsing.** Uploads are hashed, de-duplicated, size-limited and parsed in a time-limited worker process that is killed on timeout. Failures leave no record and no stray files.
+
+### API
+
+All routes are under `/api/v1`.
+
+| Method and path | Purpose |
+| --- | --- |
+| `GET /documents` | List documents, newest first |
+| `POST /documents` | Upload a PDF (`multipart/form-data`, field `file`) |
+| `GET /documents/{id}` | Fields, rules, history and current version |
+| `GET /documents/{id}/file` | The stored original PDF |
+| `PATCH /documents/{id}/fields` | Save changes (`expected_version`, `changes`, `reason`) |
+| `POST /documents/{id}/verify` | Check or un-check one field |
+| `POST /documents/{id}/confirm` | Confirm the record |
+| `POST /documents/{id}/exports` | Download the confirmed version as JSON |
+
 ## Business workflow
 
 **Upload a notice → read six extracted fields next to their PDF text → see three rule results → click a field to find its value in the PDF → correct it with a reason → check each field against the PDF → confirm → export JSON.**
@@ -169,49 +212,6 @@ At phone width the PDF stacks above the fields, selecting a field scrolls to its
 | Missing source value | blank due date | none (nothing to extract) | a record that cannot be confirmed |
 
 Faults are keyed to the SHA-256 of the bundled files in [`fixtures/manifest.json`](fixtures/manifest.json). Uploads can never request one, and the UI labels them **Preset extraction error (demo fault)**.
-
-## Architecture
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/architecture/architecture-dark.svg">
-  <img alt="TraceReview architecture: the reviewer uses the React UI, which calls the FastAPI API; the API hands review and export requests to a versioned service backed by SQLite and the original PDF store, and hands uploads to an import service that runs a time-limited PDF worker process" src="docs/architecture/architecture-light.svg">
-</picture>
-
-Read it left to right: the reviewer works in the browser, the UI talks to one API, and the API splits into two paths. The **review path** (up) edits, checks, confirms and exports through version-checked transactions, calls the pure rule functions, and re-hashes the original PDF before it trusts it. The **import path** (down) hashes and de-duplicates an upload, parses it in a separate time-limited process, then writes the rows and the original together. Only the two stores sit in the local `./data` folder.
-
-The diagram is generated with [Archify](https://github.com/tt-a1i/archify) from [`docs/architecture/architecture.json`](docs/architecture/architecture.json), and every component cites the source lines that support it, pinned to commit [`bf3390e`](https://github.com/Calista0429/tracereview/tree/bf3390ea2466e5c5bf11f612ec0552b5184615ab). Download [`architecture.html`](docs/architecture/architecture.html) and open it in a browser for the interactive version (find a node, trace a route between two components, see each component's cited sources). A high-resolution [PNG](docs/architecture/architecture.png) is also included.
-
-| Layer | Implementation |
-| --- | --- |
-| Web | React 19, TypeScript, Vite, React Router, PDF.js; locally bundled IBM Plex Sans and Newsreader fonts, no CDN at runtime |
-| API | Python 3.12, FastAPI, Pydantic; one error shape for every failure |
-| Parsing | pdfplumber in a separate process with a 10 second limit; word boxes converted to page fractions with a top-left origin |
-| Database | SQLite via SQLAlchemy 2.0 with WAL, enforced foreign keys and a version column on every record |
-| Storage | Originals stored under their SHA-256, never under the upload name; written with an atomic create-if-absent |
-| Tests | pytest, Vitest and Testing Library, Playwright in real Chrome |
-
-Key design points:
-
-- **Exact money.** `"0.10" + "0.20"` is exactly `"0.30"`. Bad input is rejected, not rounded into agreement.
-- **Server-side gates.** Confirmation and export re-check the version, all rules, the six checks and the stored original's hash on the server. The disabled buttons are only hints.
-- **No silent overwrites.** Stale writes return 409. The page keeps the draft and waits for an explicit reload, and it never retries a write whose outcome is unknown.
-- **One consistent export.** The server reads one snapshot of the confirmed version, builds the bytes, then records the export. A concurrent edit yields either the complete older confirmed file or a version conflict, never a mixture.
-- **Isolated parsing.** Uploads are hashed, de-duplicated, size-limited and parsed in a time-limited worker process that is killed on timeout. Failures leave no record and no stray files.
-
-### API
-
-All routes are under `/api/v1`.
-
-| Method and path | Purpose |
-| --- | --- |
-| `GET /documents` | List documents, newest first |
-| `POST /documents` | Upload a PDF (`multipart/form-data`, field `file`) |
-| `GET /documents/{id}` | Fields, rules, history and current version |
-| `GET /documents/{id}/file` | The stored original PDF |
-| `PATCH /documents/{id}/fields` | Save changes (`expected_version`, `changes`, `reason`) |
-| `POST /documents/{id}/verify` | Check or un-check one field |
-| `POST /documents/{id}/confirm` | Confirm the record |
-| `POST /documents/{id}/exports` | Download the confirmed version as JSON |
 
 ## Data model
 
