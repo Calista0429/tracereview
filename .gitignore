@@ -1,0 +1,12 @@
+.venv/
+data/
+__pycache__/
+*.pyc
+.pytest_cache/
+node_modules/
+dist/
+.superpowers/
+.env
+frontend/test-results/
+frontend/playwright-report/
+frontend/public/samples/

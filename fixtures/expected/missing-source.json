@@ -1,0 +1,75 @@
+{
+  "id": "missing-source",
+  "profile": "none",
+  "fields": {
+    "fund_name": {
+      "source_text": "Example Venture Fund IV",
+      "source_value": "Example Venture Fund IV",
+      "status": "valid",
+      "region": {
+        "x_min": 0.5006,
+        "x_max": 0.7189,
+        "y_min": 0.3421,
+        "y_max": 0.3623
+      }
+    },
+    "currency": {
+      "source_text": "USD",
+      "source_value": "USD",
+      "status": "valid",
+      "region": {
+        "x_min": 0.5006,
+        "x_max": 0.5463,
+        "y_min": 0.3801,
+        "y_max": 0.4003
+      }
+    },
+    "due_date": {
+      "source_text": null,
+      "source_value": null,
+      "status": "missing",
+      "region": null
+    },
+    "investment_amount": {
+      "source_text": "48,000.00",
+      "source_value": "48000.00",
+      "status": "valid",
+      "region": {
+        "x_min": 0.5006,
+        "x_max": 0.5895,
+        "y_min": 0.4561,
+        "y_max": 0.4763
+      }
+    },
+    "management_fee": {
+      "source_text": "2,000.00",
+      "source_value": "2000.00",
+      "status": "valid",
+      "region": {
+        "x_min": 0.5006,
+        "x_max": 0.5792,
+        "y_min": 0.4941,
+        "y_max": 0.5143
+      }
+    },
+    "total_due": {
+      "source_text": "50,000.00",
+      "source_value": "50000.00",
+      "status": "valid",
+      "region": {
+        "x_min": 0.5006,
+        "x_max": 0.5895,
+        "y_min": 0.5321,
+        "y_max": 0.5523
+      }
+    }
+  },
+  "initial_extracted": {
+    "fund_name": "Example Venture Fund IV",
+    "currency": "USD",
+    "due_date": null,
+    "investment_amount": "48000.00",
+    "management_fee": "2000.00",
+    "total_due": "50000.00"
+  }
+}

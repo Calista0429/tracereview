@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "template_id": "capital_call_v1",
+  "samples": [
+    {
+      "id": "normal",
+      "file": "normal.pdf",
+      "sha256": "494135b2b4bb79696b5658ddf8f2ab18a73bfd9a0bec220a032f43a82cb9168f",
+      "profile": "none",
+      "title": "Normal notice",
+      "description": "All six fields present; extraction is correct."
+    },
+    {
+      "id": "amount-error",
+      "file": "amount-error.pdf",
+      "sha256": "b91a8880d155ee747e00bede8db7b0e6411f1dd9f2377d79c951e39f3620d8db",
+      "profile": "total_extra_zero",
+      "title": "Preset total error",
+      "description": "The PDF says 50,000.00. A deliberately injected extraction fault records 500,000.00 as the candidate total."
+    },
+    {
+      "id": "missing-extraction",
+      "file": "missing-extraction.pdf",
+      "sha256": "224183886839a1978ed70045ab84d8c7ce322204ee785b6b95f63a819e5f12c9",
+      "profile": "drop_due_date",
+      "title": "Preset missing due date",
+      "description": "The due date is in the PDF and can be located. A deliberately injected extraction fault leaves the candidate empty."
+    },
+    {
+      "id": "missing-source",
+      "file": "missing-source.pdf",
+      "sha256": "92e3cb71bce9519ee63c5506ca216668751d15370e7cc207ec6997ff2e69596c",
+      "profile": "none",
+      "title": "Missing source value",
+      "description": "The due-date label is present but its value is blank in the PDF."
+    }
+  ]
+}

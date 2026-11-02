@@ -1,0 +1,80 @@
+{
+  "id": "amount-error",
+  "profile": "total_extra_zero",
+  "fields": {
+    "fund_name": {
+      "source_text": "Example Income Fund II",
+      "source_value": "Example Income Fund II",
+      "status": "valid",
+      "region": {
+        "x_min": 0.5006,
+        "x_max": 0.7076,
+        "y_min": 0.3421,
+        "y_max": 0.3623
+      }
+    },
+    "currency": {
+      "source_text": "USD",
+      "source_value": "USD",
+      "status": "valid",
+      "region": {
+        "x_min": 0.5006,
+        "x_max": 0.5463,
+        "y_min": 0.3801,
+        "y_max": 0.4003
+      }
+    },
+    "due_date": {
+      "source_text": "2026-11-17",
+      "source_value": "2026-11-17",
+      "status": "valid",
+      "region": {
+        "x_min": 0.5006,
+        "x_max": 0.6018,
+        "y_min": 0.4181,
+        "y_max": 0.4383
+      }
+    },
+    "investment_amount": {
+      "source_text": "48,000.00",
+      "source_value": "48000.00",
+      "status": "valid",
+      "region": {
+        "x_min": 0.5006,
+        "x_max": 0.5895,
+        "y_min": 0.4561,
+        "y_max": 0.4763
+      }
+    },
+    "management_fee": {
+      "source_text": "2,000.00",
+      "source_value": "2000.00",
+      "status": "valid",
+      "region": {
+        "x_min": 0.5006,
+        "x_max": 0.5792,
+        "y_min": 0.4941,
+        "y_max": 0.5143
+      }
+    },
+    "total_due": {
+      "source_text": "50,000.00",
+      "source_value": "50000.00",
+      "status": "valid",
+      "region": {
+        "x_min": 0.5006,
+        "x_max": 0.5895,
+        "y_min": 0.5321,
+        "y_max": 0.5523
+      }
+    }
+  },
+  "initial_extracted": {
+    "fund_name": "Example Income Fund II",
+    "currency": "USD",
+    "due_date": "2026-11-17",
+    "investment_amount": "48000.00",
+    "management_fee": "2000.00",
+    "total_due": "500000.00"
+  }
+}
