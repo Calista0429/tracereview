@@ -10,3 +10,4 @@ dist/
 frontend/test-results/
 frontend/playwright-report/
 frontend/public/samples/
+docs/architecture/*.delivery.json

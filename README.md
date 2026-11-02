@@ -172,15 +172,14 @@ Faults are keyed to the SHA-256 of the bundled files in [`fixtures/manifest.json
 
 ## Architecture
 
-```mermaid
-flowchart LR
-    UI[React review UI] -->|/api/v1| API[FastAPI]
-    UI --> PDFJS[PDF.js: original + highlight]
-    API --> W[PDF worker process, 10 s limit]
-    API --> R[Pure rule functions]
-    API --> DB[(SQLite)]
-    API --> FS[data/originals/sha256.pdf]
-```
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/architecture/architecture-dark.svg">
+  <img alt="TraceReview architecture: the reviewer uses the React UI, which calls the FastAPI API; the API hands review and export requests to a versioned service backed by SQLite and the original PDF store, and hands uploads to an import service that runs a time-limited PDF worker process" src="docs/architecture/architecture-light.svg">
+</picture>
+
+Read it left to right: the reviewer works in the browser, the UI talks to one API, and the API splits into two paths. The **review path** (up) edits, checks, confirms and exports through version-checked transactions, calls the pure rule functions, and re-hashes the original PDF before it trusts it. The **import path** (down) hashes and de-duplicates an upload, parses it in a separate time-limited process, then writes the rows and the original together. Only the two stores sit in the local `./data` folder.
+
+The diagram is generated with [Archify](https://github.com/tt-a1i/archify) from [`docs/architecture/architecture.json`](docs/architecture/architecture.json), and every component cites the source lines that support it, pinned to commit [`bf3390e`](https://github.com/Calista0429/tracereview/tree/bf3390ea2466e5c5bf11f612ec0552b5184615ab). Download [`architecture.html`](docs/architecture/architecture.html) and open it in a browser for the interactive version (find a node, trace a route between two components, see each component's cited sources). A high-resolution [PNG](docs/architecture/architecture.png) is also included.
 
 | Layer | Implementation |
 | --- | --- |

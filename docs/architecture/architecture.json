@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "TraceReview architecture",
+    "locale": "en",
+    "output": "docs/architecture/architecture.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/Calista0429/tracereview.git",
+      "revision": "bf3390ea2466e5c5bf11f612ec0552b5184615ab"
+    }
+  },
+  "components": [
+    {
+      "id": "reviewer",
+      "type": "external",
+      "label": "Reviewer",
+      "sublabel": "local-reviewer",
+      "pos": [40, 300],
+      "size": [140, 64],
+      "sources": [{ "path": "backend/app/config.py", "line": 11, "label": "fixed actor" }]
+    },
+    {
+      "id": "ui",
+      "type": "frontend",
+      "label": "Review UI",
+      "sublabel": "React + Vite :5173",
+      "pos": [290, 300],
+      "size": [140, 64],
+      "sources": [
+        { "path": "frontend/vite.config.ts", "line": 8, "end_line": 9, "label": "/api proxy" },
+        { "path": "frontend/src/pages/ReviewPage.tsx", "line": 160, "end_line": 171, "label": "one write at a time" }
+      ]
+    },
+    {
+      "id": "viewer",
+      "type": "frontend",
+      "label": "PDF.js viewer",
+      "sublabel": "canvas + evidence box",
+      "pos": [290, 40],
+      "size": [140, 64],
+      "sources": [
+        { "path": "frontend/src/features/review/PdfEvidenceViewer.tsx", "line": 77, "end_line": 88, "label": "load original" },
+        { "path": "frontend/src/features/review/PdfEvidenceViewer.tsx", "line": 132, "end_line": 133, "label": "highlight box" }
+      ]
+    },
+    {
+      "id": "api",
+      "type": "backend",
+      "label": "FastAPI API",
+      "sublabel": "/api/v1 on :8000",
+      "tag": "127.0.0.1 only",
+      "pos": [540, 300],
+      "size": [140, 64],
+      "sources": [
+        { "path": "backend/app/main.py", "line": 24, "end_line": 49, "label": "create_app" },
+        { "path": "backend/app/api/documents.py", "line": 21, "end_line": 30, "label": "routes" },
+        { "path": "backend/app/__main__.py", "line": 5, "end_line": 6, "label": "loopback, 1 worker" }
+      ]
+    },
+    {
+      "id": "review",
+      "type": "backend",
+      "label": "Review & export",
+      "sublabel": "versioned writes",
+      "tag": "server-side gates",
+      "pos": [790, 170],
+      "size": [140, 64],
+      "sources": [
+        { "path": "backend/app/services/reviews.py", "line": 72, "end_line": 98, "label": "version-checked write" },
+        { "path": "backend/app/services/exports.py", "line": 45, "end_line": 87, "label": "snapshot export" },
+        { "path": "backend/app/services/documents.py", "line": 143, "end_line": 170, "label": "original hash check" }
+      ]
+    },
+    {
+      "id": "rules",
+      "type": "backend",
+      "label": "Rule functions",
+      "sublabel": "R001 R002 R003",
+      "pos": [790, 40],
+      "size": [140, 64],
+      "sources": [{ "path": "backend/app/domain/rules.py", "line": 35, "end_line": 42, "label": "validate_document" }]
+    },
+    {
+      "id": "originals",
+      "type": "database",
+      "label": "Original PDFs",
+      "sublabel": "originals/<sha256>.pdf",
+      "pos": [790, 300],
+      "size": [140, 64],
+      "sources": [{ "path": "backend/app/services/storage.py", "line": 64, "end_line": 78, "label": "atomic create" }]
+    },
+    {
+      "id": "sqlite",
+      "type": "database",
+      "label": "SQLite",
+      "sublabel": "3 tables, WAL",
+      "pos": [1040, 300],
+      "size": [140, 64],
+      "sources": [
+        { "path": "backend/app/db.py", "line": 12, "end_line": 32, "label": "engine, WAL" },
+        { "path": "backend/app/models.py", "line": 13, "end_line": 42, "label": "documents" },
+        { "path": "backend/app/models.py", "line": 62, "end_line": 76, "label": "audit_events" }
+      ]
+    },
+    {
+      "id": "import",
+      "type": "backend",
+      "label": "Import service",
+      "sublabel": "hash, dedupe, store",
+      "pos": [540, 430],
+      "size": [140, 64],
+      "sources": [
+        { "path": "backend/app/services/imports.py", "line": 56, "end_line": 77, "label": "import_document" },
+        { "path": "backend/app/services/imports.py", "line": 199, "end_line": 200, "label": "fault profile" }
+      ]
+    },
+    {
+      "id": "worker",
+      "type": "backend",
+      "label": "PDF worker",
+      "sublabel": "pdfplumber, 10 s limit",
+      "pos": [290, 430],
+      "size": [140, 64],
+      "sources": [
+        { "path": "backend/app/services/imports.py", "line": 141, "end_line": 160, "label": "subprocess + timeout" },
+        { "path": "backend/app/services/pdf_worker.py", "line": 23, "end_line": 37, "label": "worker entry" },
+        { "path": "backend/app/services/pdf_parser.py", "line": 49, "end_line": 58, "label": "parse_pdf" }
+      ]
+    }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Browser", "wraps": ["ui", "viewer"] },
+    { "kind": "region", "label": "Local data folder ./data", "wraps": ["originals", "sqlite"] }
+  ],
+  "connections": [
+    { "id": "reviewer-ui", "from": "reviewer", "to": "ui", "label": "uses", "variant": "emphasis" },
+    { "id": "ui-api", "from": "ui", "to": "api", "label": "REST /api/v1", "variant": "emphasis" },
+    { "id": "ui-viewer", "from": "ui", "to": "viewer", "label": "blob + box" },
+    { "id": "api-review", "from": "api", "to": "review", "label": "edit, check, export" },
+    { "id": "api-import", "from": "api", "to": "import", "label": "POST /documents" },
+    { "id": "import-worker", "from": "import", "to": "worker", "label": "subprocess" },
+    { "id": "import-originals", "from": "import", "to": "originals", "label": "atomic create" },
+    { "id": "import-sqlite", "from": "import", "to": "sqlite", "label": "rows + event" },
+    { "id": "review-sqlite", "from": "review", "to": "sqlite", "label": "versioned tx" },
+    { "id": "review-originals", "from": "review", "to": "originals", "label": "hash check", "variant": "security" },
+    { "id": "review-rules", "from": "review", "to": "rules", "label": "validate" }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Server-side gates",
+      "items": [
+        "Every write names expected_version; a stale write is refused with 409",
+        "Confirm and export re-check the rules, all six checks and the original's SHA-256"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Demo faults",
+      "items": [
+        "Injected candidates come only from SHA-matched samples in fixtures/manifest.json",
+        "Source text, value and box are never changed by an edit"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Isolation",
+      "items": [
+        "The API binds to 127.0.0.1 with one worker",
+        "Parsing runs in a separate process that is killed after 10 s"
+      ]
+    }
+  ]
+}
