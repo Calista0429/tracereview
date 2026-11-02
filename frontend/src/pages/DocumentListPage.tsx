@@ -72,7 +72,7 @@ export function DocumentListPage() {
       if (error instanceof ApiError && error.code === "DOCUMENT_DUPLICATE") {
         setProblem({ message: error.message, existingId: String(error.details.existing_document_id ?? "") });
       } else {
-        setProblem({ message: describeError(error, "uploading the file") });
+        setProblem({ message: `${file.name} was not imported. ${describeError(error, "uploading the file")}` });
       }
     } finally {
       setUploading(null);

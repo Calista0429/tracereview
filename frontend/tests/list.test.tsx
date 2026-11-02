@@ -108,7 +108,9 @@ describe("document list", () => {
     api.upload.mockRejectedValue(new ApiError(422, "UNSUPPORTED_LAYOUT", "Only single-page, unrotated, uncropped PDFs with a text layer are supported."));
     renderAt("/");
     await user.upload(await screen.findByLabelText(/Choose a PDF/), new File(["x"], "scan.pdf", { type: "application/pdf" }));
-    expect(await screen.findByRole("alert")).toHaveTextContent("Only single-page");
+    const alert = await screen.findByRole("alert");
+    expect(alert).toHaveTextContent("scan.pdf was not imported.");
+    expect(alert).toHaveTextContent("Only single-page");
     expect(screen.getByText(/No documents yet/)).toBeInTheDocument();
   });
 

@@ -1,0 +1,367 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-02T10:01:50.728Z",
+  "document": {
+    "id": "ec2f216b-9dbd-46aa-aa0a-1e3cc58991e5",
+    "filename": "amount-error.pdf",
+    "sha256": "b91a8880d155ee747e00bede8db7b0e6411f1dd9f2377d79c951e39f3620d8db",
+    "version": 9,
+    "status": "CONFIRMED",
+    "template_id": "capital_call_v1",
+    "parser_version": "v1",
+    "extraction_profile": "total_extra_zero",
+    "page": {
+      "number": 1,
+      "width": 595.2756,
+      "height": 841.8898
+    }
+  },
+  "confirmation": {
+    "confirmed_at": "2026-11-02T10:01:47.902Z",
+    "confirmed_by": "local-reviewer",
+    "document_version": 9
+  },
+  "fields": [
+    {
+      "key": "fund_name",
+      "label": "Fund name",
+      "current_value": "Example Income Fund II",
+      "initial_extracted_value": "Example Income Fund II",
+      "modified": false,
+      "source_text": "Example Income Fund II",
+      "source_value": "Example Income Fund II",
+      "source_parse_status": "valid",
+      "evidence": {
+        "document_sha256": "b91a8880d155ee747e00bede8db7b0e6411f1dd9f2377d79c951e39f3620d8db",
+        "page": 1,
+        "bbox": {
+          "x": 0.503968245968758,
+          "y": 0.34597996079771964,
+          "width": 0.20027362115967798,
+          "height": 0.013065843059269751
+        }
+      },
+      "verified": true,
+      "verified_at": "2026-11-02T10:01:47.393Z",
+      "verified_by": "local-reviewer"
+    },
+    {
+      "key": "currency",
+      "label": "Currency",
+      "current_value": "USD",
+      "initial_extracted_value": "USD",
+      "modified": false,
+      "source_text": "USD",
+      "source_value": "USD",
+      "source_parse_status": "valid",
+      "evidence": {
+        "document_sha256": "b91a8880d155ee747e00bede8db7b0e6411f1dd9f2377d79c951e39f3620d8db",
+        "page": 1,
+        "bbox": {
+          "x": 0.503968245968758,
+          "y": 0.38398968606104983,
+          "width": 0.0390088221321351,
+          "height": 0.013065843059269751
+        }
+      },
+      "verified": true,
+      "verified_at": "2026-11-02T10:01:47.477Z",
+      "verified_by": "local-reviewer"
+    },
+    {
+      "key": "due_date",
+      "label": "Payment due date",
+      "current_value": "2026-11-17",
+      "initial_extracted_value": "2026-11-17",
+      "modified": false,
+      "source_text": "2026-11-17",
+      "source_value": "2026-11-17",
+      "source_parse_status": "valid",
+      "evidence": {
+        "document_sha256": "b91a8880d155ee747e00bede8db7b0e6411f1dd9f2377d79c951e39f3620d8db",
+        "page": 1,
+        "bbox": {
+          "x": 0.503968245968758,
+          "y": 0.42199941132438,
+          "width": 0.09450076569575507,
+          "height": 0.013065843059269751
+        }
+      },
+      "verified": true,
+      "verified_at": "2026-11-02T10:01:47.556Z",
+      "verified_by": "local-reviewer"
+    },
+    {
+      "key": "investment_amount",
+      "label": "Investment contribution",
+      "current_value": "48000.00",
+      "initial_extracted_value": "48000.00",
+      "modified": false,
+      "source_text": "48,000.00",
+      "source_value": "48000.00",
+      "source_parse_status": "valid",
+      "evidence": {
+        "document_sha256": "b91a8880d155ee747e00bede8db7b0e6411f1dd9f2377d79c951e39f3620d8db",
+        "page": 1,
+        "bbox": {
+          "x": 0.503968245968758,
+          "y": 0.4600091365877102,
+          "width": 0.08219386112919796,
+          "height": 0.013065843059269751
+        }
+      },
+      "verified": true,
+      "verified_at": "2026-11-02T10:01:47.646Z",
+      "verified_by": "local-reviewer"
+    },
+    {
+      "key": "management_fee",
+      "label": "Management fee",
+      "current_value": "2000.00",
+      "initial_extracted_value": "2000.00",
+      "modified": false,
+      "source_text": "2,000.00",
+      "source_value": "2000.00",
+      "source_parse_status": "valid",
+      "evidence": {
+        "document_sha256": "b91a8880d155ee747e00bede8db7b0e6411f1dd9f2377d79c951e39f3620d8db",
+        "page": 1,
+        "bbox": {
+          "x": 0.503968245968758,
+          "y": 0.4980188618510404,
+          "width": 0.07191962848804824,
+          "height": 0.013065843059269751
+        }
+      },
+      "verified": true,
+      "verified_at": "2026-11-02T10:01:47.742Z",
+      "verified_by": "local-reviewer"
+    },
+    {
+      "key": "total_due",
+      "label": "Total amount due",
+      "current_value": "50000.00",
+      "initial_extracted_value": "500000.00",
+      "modified": true,
+      "source_text": "50,000.00",
+      "source_value": "50000.00",
+      "source_parse_status": "valid",
+      "evidence": {
+        "document_sha256": "b91a8880d155ee747e00bede8db7b0e6411f1dd9f2377d79c951e39f3620d8db",
+        "page": 1,
+        "bbox": {
+          "x": 0.503968245968758,
+          "y": 0.5360285871143706,
+          "width": 0.08219386112919796,
+          "height": 0.013065843059269751
+        }
+      },
+      "verified": true,
+      "verified_at": "2026-11-02T10:01:47.823Z",
+      "verified_by": "local-reviewer"
+    }
+  ],
+  "rules": {
+    "ruleset_version": "v1",
+    "results": [
+      {
+        "id": "R001_REQUIRED",
+        "status": "PASS",
+        "fields": [
+          "fund_name",
+          "currency",
+          "due_date",
+          "investment_amount",
+          "management_fee",
+          "total_due"
+        ],
+        "message": "All six fields have valid values."
+      },
+      {
+        "id": "R002_TOTAL",
+        "status": "PASS",
+        "fields": [
+          "investment_amount",
+          "management_fee",
+          "total_due"
+        ],
+        "message": "Total equals investment contribution plus management fee."
+      },
+      {
+        "id": "R003_EVIDENCE",
+        "status": "PASS",
+        "fields": [
+          "fund_name",
+          "currency",
+          "due_date",
+          "investment_amount",
+          "management_fee",
+          "total_due"
+        ],
+        "message": "All six fields have complete source evidence."
+      }
+    ]
+  },
+  "history": [
+    {
+      "id": 2,
+      "document_version": 1,
+      "event_type": "IMPORTED",
+      "actor": "local-reviewer",
+      "created_at": "2026-11-02T10:01:38.275Z",
+      "payload": {
+        "extraction_profile": "total_extra_zero",
+        "filename": "amount-error.pdf",
+        "parser_version": "v1",
+        "sha256": "b91a8880d155ee747e00bede8db7b0e6411f1dd9f2377d79c951e39f3620d8db",
+        "source_status": {
+          "currency": "valid",
+          "due_date": "valid",
+          "fund_name": "valid",
+          "investment_amount": "valid",
+          "management_fee": "valid",
+          "total_due": "valid"
+        },
+        "template_id": "capital_call_v1"
+      }
+    },
+    {
+      "id": 3,
+      "document_version": 2,
+      "event_type": "FIELDS_UPDATED",
+      "actor": "local-reviewer",
+      "created_at": "2026-11-02T10:01:44.586Z",
+      "payload": {
+        "changes": [
+          {
+            "after": "50000.00",
+            "before": "500000.00",
+            "key": "total_due"
+          }
+        ],
+        "checks_cleared": [],
+        "reason": "Total checked against the PDF."
+      }
+    },
+    {
+      "id": 4,
+      "document_version": 3,
+      "event_type": "FIELD_VERIFICATION_CHANGED",
+      "actor": "local-reviewer",
+      "created_at": "2026-11-02T10:01:47.393Z",
+      "payload": {
+        "field_key": "fund_name",
+        "previous": false,
+        "verified": true
+      }
+    },
+    {
+      "id": 5,
+      "document_version": 4,
+      "event_type": "FIELD_VERIFICATION_CHANGED",
+      "actor": "local-reviewer",
+      "created_at": "2026-11-02T10:01:47.477Z",
+      "payload": {
+        "field_key": "currency",
+        "previous": false,
+        "verified": true
+      }
+    },
+    {
+      "id": 6,
+      "document_version": 5,
+      "event_type": "FIELD_VERIFICATION_CHANGED",
+      "actor": "local-reviewer",
+      "created_at": "2026-11-02T10:01:47.556Z",
+      "payload": {
+        "field_key": "due_date",
+        "previous": false,
+        "verified": true
+      }
+    },
+    {
+      "id": 7,
+      "document_version": 6,
+      "event_type": "FIELD_VERIFICATION_CHANGED",
+      "actor": "local-reviewer",
+      "created_at": "2026-11-02T10:01:47.646Z",
+      "payload": {
+        "field_key": "investment_amount",
+        "previous": false,
+        "verified": true
+      }
+    },
+    {
+      "id": 8,
+      "document_version": 7,
+      "event_type": "FIELD_VERIFICATION_CHANGED",
+      "actor": "local-reviewer",
+      "created_at": "2026-11-02T10:01:47.742Z",
+      "payload": {
+        "field_key": "management_fee",
+        "previous": false,
+        "verified": true
+      }
+    },
+    {
+      "id": 9,
+      "document_version": 8,
+      "event_type": "FIELD_VERIFICATION_CHANGED",
+      "actor": "local-reviewer",
+      "created_at": "2026-11-02T10:01:47.824Z",
+      "payload": {
+        "field_key": "total_due",
+        "previous": false,
+        "verified": true
+      }
+    },
+    {
+      "id": 10,
+      "document_version": 9,
+      "event_type": "CONFIRMED",
+      "actor": "local-reviewer",
+      "created_at": "2026-11-02T10:01:47.902Z",
+      "payload": {
+        "rules": [
+          {
+            "fields": [
+              "fund_name",
+              "currency",
+              "due_date",
+              "investment_amount",
+              "management_fee",
+              "total_due"
+            ],
+            "id": "R001_REQUIRED",
+            "message": "All six fields have valid values.",
+            "status": "PASS"
+          },
+          {
+            "fields": [
+              "investment_amount",
+              "management_fee",
+              "total_due"
+            ],
+            "id": "R002_TOTAL",
+            "message": "Total equals investment contribution plus management fee.",
+            "status": "PASS"
+          },
+          {
+            "fields": [
+              "fund_name",
+              "currency",
+              "due_date",
+              "investment_amount",
+              "management_fee",
+              "total_due"
+            ],
+            "id": "R003_EVIDENCE",
+            "message": "All six fields have complete source evidence.",
+            "status": "PASS"
+          }
+        ],
+        "ruleset_version": "v1"
+      }
+    }
+  ]
+}
